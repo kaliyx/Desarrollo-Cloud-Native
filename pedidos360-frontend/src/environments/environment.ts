@@ -1,10 +1,17 @@
+const currentOrigin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:4200';
+
+const apiScope = 'api://cca6baa4-4933-4d00-b8a9-8c899dbfba57/access_as_user';
+
 export const environment = {
   production: false,
   azure: {
-    clientId: 'TU_CLIENT_ID_AZURE',
-    tenantId: 'TU_TENANT_ID_AZURE',
-    redirectUri: 'http://localhost:4200',
-    apiScope: 'api://TU_CLIENT_ID_AZURE/access_as_user',
-    apiEndpoint: 'http://localhost:8080'
-  }
+    clientId: 'cca6baa4-4933-4d00-b8a9-8c899dbfba57',
+    tenantId: '77747a67-519b-49e8-a701-13c4e011672c',
+    redirectUri: currentOrigin,
+    postLogoutRedirectUri: currentOrigin,
+    apiScope,
+    apiEndpoint: 'http://localhost:8080',
+    loginScopes: ['openid', 'profile', 'email'],
+    apiScopes: [apiScope],
+  },
 };

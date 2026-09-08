@@ -1,18 +1,29 @@
-<main style="font-family: system-ui; max-width: 500px; margin: 4rem auto; text-align: center; border: 1px solid #ccc; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-  <h2>Pedidos360 - Control de Acceso</h2>
+<main class="auth-shell">
+  <section class="auth-card" aria-live="polite">
+    <h2>Pedidos360 - Control de Acceso</h2>
+    <p *ngIf="httpAuthError" class="error-message" role="alert">{{ httpAuthError }}</p>
 
-  <div *ngIf="!isLoggedIn">
-    <p>Inicia sesión para acceder a la plataforma.</p>
-    <button (click)="login()" style="padding: 0.8rem 1.5rem; cursor: pointer; background-color: #0078d4; color: white; border: none; border-radius: 4px; font-weight: bold;">
-      Iniciar Sesión con Microsoft
-    </button>
-  </div>
+    <div *ngIf="!isLoggedIn" class="auth-content">
+      <p>Inicia sesión para acceder a la plataforma.</p>
+      <button type="button" class="btn btn-primary" [disabled]="isAuthenticating" (click)="login()">
+        {{ isAuthenticating ? 'Abriendo Microsoft...' : 'Iniciar Sesión con Microsoft' }}
+      </button>
+      <p *ngIf="authError" class="error-message" role="alert">{{ authError }}</p>
+    </div>
 
-  <div *ngIf="isLoggedIn">
-    <p style="color: #107c41;"><strong>¡Autenticación exitosa!</strong></p>
-    <p *ngIf="userName">Usuario: <strong>{{ userName }}</strong></p>
-    <button (click)="logout()" style="padding: 0.8rem 1.5rem; cursor: pointer; background-color: #d13438; color: white; border: none; border-radius: 4px;">
-      Cerrar Sesión
-    </button>
-  </div>
+    <div *ngIf="isLoggedIn" class="auth-content">
+      <p class="success-message"><strong>¡Autenticación exitosa!</strong></p>
+      <p *ngIf="userName">Usuario: <strong>{{ userName }}</strong></p>
+
+      <div *ngIf="backendUser" class="profile-card">
+        <p><strong>Perfil desde backend:</strong></p>
+        <p>Usuario: {{ backendUser.user || backendUser.preferred_username || 'No disponible' }}</p>
+        <p>Nombre: {{ backendUser.name || 'No disponible' }}</p>
+      </div>
+
+      <button type="button" class="btn btn-danger" (click)="logout()">
+        Cerrar Sesión
+      </button>
+    </div>
+  </section>
 </main>
